@@ -51,3 +51,23 @@ endif;
 ```
 
 ### Settings
+
+When you create an instance of Optimisme Cache, you can set two specific settings :
+- $name : The name of the cached file or null. If you set it to null, a name will be automatically generated.
+- $cachetime : Time in seconds while this specific cached code will stay in cache
+
+```php
+<?php
+include 'vendor/autoload.php'
+
+$cacheManager = new Optimisme\Cache('my-custom-filename', 600);
+
+$cacheManager->cache(function() {
+    ?>
+    
+    // Write your code there
+
+    <?php
+});
+?>
+```
