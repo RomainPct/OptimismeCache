@@ -1,5 +1,5 @@
 {
-    "name": "optimisme/optimismeCache",
+    "name": "optimisme/optimisme-cache",
     "type": "library",
     "description": "A simple cache package",
     "keywords": ["cache", "caching", "html", "simple"],
