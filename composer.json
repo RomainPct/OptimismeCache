@@ -1,0 +1,22 @@
+{
+    "name": "optimisme/optimismeCache",
+    "type": "library",
+    "description": "A simple cache package",
+    "keywords": ["cache", "caching", "html", "simple"],
+    "require": {
+        "php": "^7.2"
+    },
+    "authors": [
+        {
+            "name": "Romain Penchenat",
+            "email": "romain.penchenat@icloud.com",
+            "homepage": "https://romainpenchenat.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Optimisme\\": "src/"
+        }
+    }
+}
