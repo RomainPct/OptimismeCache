@@ -32,7 +32,7 @@ class Cache {
      * @param Callable $handler [Write the code to cache into the handler function]
      * @return void
      */
-    public function cache(Callable $handler) {
+    public function cache(Callable $handler):Void {
         if ($this->open()) {
             $handler();
             $this->save();
@@ -55,7 +55,7 @@ class Cache {
      *
      * @return void
      */
-    public function save() {
+    public function save():Void {
         $cached = fopen($this->_cachefileUrl, 'w');
         fwrite($cached, ob_get_contents());
         fclose($cached);
