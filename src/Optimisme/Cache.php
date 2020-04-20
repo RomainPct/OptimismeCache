@@ -6,7 +6,7 @@ class Cache {
     private $_cachetime;
     private $_cachefile;
     private $_cachefileUrl;
-    private $_folder = __DIR__."/../optimismeCache";
+    private $_folder = __DIR__.'/../optimismeCache';
 
     /**
      * Initialize Optimisme Cache for a specific page or component
@@ -15,10 +15,10 @@ class Cache {
      * @param Int $cachetime [Cache duration in seconds. Defult is 21 600s]
      */
     public function __construct(?String $name = null, Int $cachetime = 21600) {
-        $url = str_replace('/', '-', $_SERVER["SCRIPT_NAME"]);
-        $file = $name ?? substr_replace($url ,"",-4);
+        $url = str_replace('/', '-', $_SERVER['SCRIPT_NAME']);
+        $file = $name ?? substr_replace($url ,'',-4).'-'.basename(__FILE__, '.php');
         $this->_cachefile = 'cached-'.$file.'.html';
-        $this->_folder = $_SERVER["DOCUMENT_ROOT"]."/optimismeCache";
+        $this->_folder = $_SERVER['DOCUMENT_ROOT'].'/optimismeCache';
         $this->_cachefileUrl = $this->_folder.'/'.$this->_cachefile;
         $this->_cachetime = $cachetime;
         if (!file_exists($this->_folder)) {
