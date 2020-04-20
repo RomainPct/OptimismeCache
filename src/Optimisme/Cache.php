@@ -8,11 +8,17 @@ class Cache {
     private $_cachefileUrl;
     private $_folder = __DIR__."/../optimismeCache";
 
-    public function __construct(String $name = null, Int $cachetime = 21600) {
-        $url = $_SERVER["SCRIPT_NAME"];
-        $break = Explode('/', $url);
-        $file = $name != null ? $name : substr_replace($break[count($break) - 1] ,"",-4);
+    /**
+     * Initialize Optimisme Cache for a specific page or component
+     *
+     * @param String|null $name [Optional name for the cached file]
+     * @param Int $cachetime [Cache duration in seconds. Defult is 21 600s]
+     */
+    public function __construct(?String $name = null, Int $cachetime = 21600) {
+        $url = str_replace('/', '-', $_SERVER["SCRIPT_NAME"]);
+        $file = $name ?? substr_replace($url ,"",-4);
         $this->_cachefile = 'cached-'.$file.'.html';
+        $this->_folder = $_SERVER["DOCUMENT_ROOT"]."/optimismeCache";
         $this->_cachefileUrl = $this->_folder.'/'.$this->_cachefile;
         $this->_cachetime = $cachetime;
         if (!file_exists($this->_folder)) {
@@ -20,35 +26,40 @@ class Cache {
         }
     }
 
+    /**
+     * Get cache data
+     *
+     * @param Callable $handler [Write the code to cache into the handler function]
+     * @return void
+     */
     public function cache(Callable $handler) {
-        if (file_exists($this->_cachefileUrl) && time() - $this->_cachetime < filemtime($this->_cachefileUrl)) {
-            echo "<!-- Cached copy, generated ".date('H:i', filemtime($this->_cachefileUrl))." -->\n";
-            readfile($this->_cachefileUrl);
-        } else {
-            ob_start();
+        if ($this->open()) {
             $handler();
-            $cached = fopen($this->_cachefileUrl, 'w');
-            fwrite($cached, ob_get_contents());
-            fclose($cached);
-            ob_end_flush(); // Send the output to the browser
+            $this->save();
         }
     }
 
-    public function open() {
-        if (file_exists($this->_cachefileUrl) && time() - $this->_cachetime < filemtime($this->_cachefileUrl)) {
-            readfile($this->_cachefileUrl);
-            return false;
-        } else {
-            ob_start();
-            return true;
-        }
+    /**
+     * Get cache data or open caching if there is no cached data
+     *
+     * @return Bool [Return is we open cashing]
+     */
+    public function open():Bool {
+        $fileIsCached = file_exists($this->_cachefileUrl) && time() - $this->_cachetime < filemtime($this->_cachefileUrl);
+        $fileIsCached ? readfile($this->_cachefileUrl) : ob_start();
+        return !$fileIsCached;
     }
 
+    /**
+     * Cache code between Cache()->open() and Cache()->save()
+     *
+     * @return void
+     */
     public function save() {
         $cached = fopen($this->_cachefileUrl, 'w');
         fwrite($cached, ob_get_contents());
         fclose($cached);
-        ob_end_flush(); // Send the output to the browser
+        ob_end_flush();
     }
 
 }
