@@ -11,12 +11,12 @@ class Cache {
     /**
      * Initialize Optimisme Cache for a specific page or component
      *
-     * @param String|null $name [Optional name for the cached file]
+     * @param String|null $name [Optional name if it is a reusable component]
      * @param Int $cachetime [Cache duration in seconds. Defult is 21 600s]
      */
     public function __construct(?String $name = null, Int $cachetime = 21600) {
         $url = str_replace('/', '-', $_SERVER['SCRIPT_NAME']);
-        $file = $name ?? substr_replace($url ,'',-4).'-'.basename(__FILE__, '.php');
+        $file = $name ?? substr_replace($url ,'',-4);
         $this->_cachefile = 'cached-'.$file.'.html';
         $this->_folder = $_SERVER['DOCUMENT_ROOT'].'/optimismeCache';
         $this->_cachefileUrl = $this->_folder.'/'.$this->_cachefile;

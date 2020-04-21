@@ -53,21 +53,29 @@ endif;
 ### Settings
 
 When you create an instance of Optimisme Cache, you can set two specific settings :
-- $name : The name of the cached file or null. If you set it to null, a name will be automatically generated.
+- $name : You can specifiy a custom name for exemple is this component is used many times in different places. By default or if you set it to null, a name will be automatically generated according to the current page url.
 - $cachetime : Time in seconds while this specific cached code will stay in cache
+
+Optimisme Cache also supports caching subcomponents of page or components.
 
 ```php
 <?php
 include 'vendor/autoload.php'
 
-$cacheManager = new Optimisme\Cache('my-custom-filename', 600);
-
-$cacheManager->cache(function() {
+$pageCache = new Optimisme\Cache(null, 1200);
+$pageCache->cache(function() {
     ?>
-    
-    // Write your code there
-
+    // Write your page code there
     <?php
+    $componentCache = new Optimisme\Cache('my-custom-component-name', 600);
+
+    $componentCache->cache(function() {
+        ?>
+        
+        // Write your component code there
+
+        <?php
+    });
 });
 ?>
 ```
