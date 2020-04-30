@@ -62,4 +62,17 @@ class Cache {
         ob_end_flush();
     }
 
+    /**
+     * Uncache a component or a page by specifying his name
+     *
+     * @param [String] $itemName [Component name or this part of the cached file name cached-ITEM_NAME.html]
+     * @return Void
+     */
+    static function uncache(String $itemName):Void {
+        $fileUrl = $_SERVER['DOCUMENT_ROOT'] . '/optimismeCache/cached-' . $itemName.'.html';
+        if (file_exists($fileUrl)) {
+            unlink($fileUrl);
+        }
+    }
+
 }
