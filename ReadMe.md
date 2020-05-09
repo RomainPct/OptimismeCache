@@ -17,7 +17,7 @@ composer require optimisme/optimisme-cache
 
 ```php
 <?php
-include 'vendor/autoload.php'
+include 'vendor/autoload.php';
 
 $cacheManager = new Optimisme\Cache();
 
@@ -35,7 +35,7 @@ $cacheManager->cache(function() {
 
 ```php
 <?php
-include 'vendor/autoload.php'
+include 'vendor/autoload.php';
 
 $cacheManager = new Optimisme\Cache();
 
@@ -60,7 +60,7 @@ Optimisme Cache also supports caching subcomponents of page or components.
 
 ```php
 <?php
-include 'vendor/autoload.php'
+include 'vendor/autoload.php';
 
 $pageCache = new Optimisme\Cache(null, 1200);
 $pageCache->cache(function() {
